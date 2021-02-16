@@ -1,10 +1,12 @@
 pipeline {
-    agent any
+    agent {
+        docker { image 'node:14.15.0-alpine' }
+    }
     stages {
-        stage('test') {
+        stage('Test') {
             steps {
-                sh 'echo $GIT_BRANCH'
-            }            
+                sh 'node --version'
+            }
         }
     }
 }
