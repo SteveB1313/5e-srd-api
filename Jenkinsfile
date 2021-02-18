@@ -19,16 +19,17 @@ pipeline {
                     sh 'docker-compose up -d'
                     sh './test-container.sh'
                     }
-                post {
-                    success {
-                        echo "App started successfully"
-                    }
-                failure {
-                    echo "App failed to start"
-                }
-                }
+                
             }
         }
+        post {
+            success {
+                echo "App started successfully"
+            }
+            failure {
+                echo "App failed to start"
+                }
+            }
         stage('Cleaning up') {
             steps{
                 sh "docker-compose down"
