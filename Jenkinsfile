@@ -22,14 +22,6 @@ pipeline {
                 
             }
         }
-        post {
-            success {
-                echo "App started successfully"
-            }
-            failure {
-                echo "App failed to start"
-                }
-            }
         stage('Cleaning up') {
             steps{
                 sh "docker-compose down"
@@ -37,4 +29,12 @@ pipeline {
             }
         }
     }
+    post {
+            success {
+                echo "App started successfully"
+            }
+            failure {
+                echo "App failed to start"
+                }
+        }
 }
