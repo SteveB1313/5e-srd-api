@@ -1,27 +1,37 @@
 pipeline {
-environment {
-    registry = "steve1313/dnd-5e-api"
-    registryCredential = 'docker'
-    }
     agent any
     stages {
-        def app
-        stage('Build') {
-            steps{
-                app = docker.build("")
+        stage('Verify branch') {
+            steps {
+                echo "$GIT_BRANCH"
             }
         }
-        stage('Publish') {
+        stage('Build') {
+            steps{
+                sh 'docker images -a'
+                sh 'docker build -t steve1313/dnd-5e-api:latest'
+                sh 'docker images -a' 
+            }
+        }
+        stage('Test') {
             steps{
                 script {
-                    docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-                        app.push("latest")
+                    sh 'docker-compose up -d'
+                    sh './test-container.sh'
                     }
+                post {
+                    success {
+                        echo "App started successfully"
+                    }
+                failure {
+                    echo "App failed to start"
+                }
                 }
             }
         }
         stage('Cleaning up') {
             steps{
+                sh "docker-compose down"
                 sh "docker rmi steve1313/dnd-5e-api:latest"
             }
         }
