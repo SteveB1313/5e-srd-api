@@ -2,22 +2,20 @@ pipeline {
 environment {
     registry = "steve1313/dnd-5e-api"
     registryCredential = 'docker'
-    dockerImage = ''
     }
     agent any
     stages {
+        def app
         stage('Build') {
             steps{
-                script {
-                    sh 'docker build -t steve1313/dnd-5e-api:latest .'
-                }
+                app = docker.build("")
             }
         }
         stage('Publish') {
             steps{
                 script {
-                    docker.withRegistry( '', registryCredential ) {
-                    dockerImage.push()
+                    docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+                        app.push("latest")
                     }
                 }
             }
