@@ -9,7 +9,7 @@ environment {
         stage('Build') {
             steps{
                 script {
-                    sh 'docker build -f "5e-api" -t steve1313/dnd-5e-api:latest .'
+                    sh 'docker build -f "5e-api" -t steve1313/dnd-5e-api:latest ./Dockerfile'
                 }
             }
         }
