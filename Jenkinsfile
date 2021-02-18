@@ -6,19 +6,14 @@ environment {
     }
     agent any
     stages {
-        stage('Cloning our Git') {
-            steps {
-                git 'https://github.com/SteveB1313/5e-srd-api.git'
-            }
-        }
-        stage('Building our image') {
+        stage('Build') {
             steps{
                 script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    sh 'docker build -f "5e-api" -t steve1313/dnd-5e-api:latest'
                 }
             }
         }
-        stage('Deploy our image') {
+        stage('Publish') {
             steps{
                 script {
                     docker.withRegistry( '', registryCredential ) {
@@ -29,7 +24,7 @@ environment {
         }
         stage('Cleaning up') {
             steps{
-                sh "docker rmi $registry:$BUILD_NUMBER"
+                sh "docker rmi steve1313/dnd-5e-api:latest"
             }
         }
     }
