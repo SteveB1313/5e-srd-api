@@ -9,7 +9,7 @@ pipeline {
         stage('Build') {
             steps{
                 sh 'docker images -a'
-                sh 'docker build -t steve1313/dnd-5e-api:latest'
+                sh 'docker build -t steve1313/dnd-5e-api:latest .'
                 sh 'docker images -a' 
             }
         }
