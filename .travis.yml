@@ -9,7 +9,7 @@ node_js:
 
 before_install:
   - docker build -t steve1313/dnd-5e-api .
-  - docker run -d -p 3001:3000 steve1313/dnd-5e-api
+  - docker run -d -p 3003:3000 steve1313/dnd-5e-api
   - docker ps -a
 
 deploy:
